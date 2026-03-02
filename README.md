@@ -6,6 +6,16 @@
 
 A project template with pre-configured [Claude Code](https://docs.anthropic.com/en/docs/claude-code) rules and documentation structure. Clone this repository to start new projects with consistent coding standards enforced by AI.
 
+## 3 min Quick Start
+
+1. Clone this repository
+2. Run `claude`
+3. Type:
+
+> "Create a user management API"
+
+Code will be generated automatically based on the rules and examples.
+
 ## What is this?
 
 This template provides four things:
@@ -114,7 +124,10 @@ These documents are what Claude reads to understand **what to build**. The rules
 > [!IMPORTANT]
 > The more detailed your requirements and specifications are, the more accurate Claude's output will be. At minimum, fill in the tech stack and core feature list.
 
-### 3. Customize rules
+### 3. Customize Layer Rules
+
+> [!IMPORTANT]
+> The Layer Rules (`.claude/rules/*.md`) are written with **TypeScript / Next.js / Prisma** as defaults. **You must rewrite them to match your project's tech stack.** Core Rules (`core/`) are language-agnostic and can be used as-is.
 
 Edit the rules in `.claude/rules/` to match your project's tech stack. Each rule follows the **Do/Don't + Example** format:
 

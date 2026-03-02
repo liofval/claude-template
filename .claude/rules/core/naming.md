@@ -19,6 +19,9 @@ paths:
 ## ファイル命名
 
 ### Do
+- 名前はコメントなしで意図が伝わること
+- 省略形は使わない（`uc` ではなく `userCount`）
+- 関数は動詞＋名詞の形にする（`fetchUser`、`validateInput`、`buildPayload`）
 - service: `xxx-service.ts`（例: `user-service.ts`）
 - repository: `xxx-repository.ts`（例: `user-repository.ts`）
 - API handler: 動詞-名詞（例: `create-user.ts`, `get-users.ts`）
@@ -31,6 +34,7 @@ paths:
 - `Service.ts`, `Repository.ts` のように抽象的な名前にしない
 - `helper.ts`, `util.ts`, `common.ts` のような曖昧な名前にしない
 - ファイル名にキャメルケースを使わない（コンポーネント `.tsx` を除く）
+- `data`、`temp`、`result`、`flag`、`x` のような汎用的すぎる変数名を避ける
 
 ## Example
 ```
@@ -51,6 +55,18 @@ src/features/user/
   ├── hooks/data.ts            # useプレフィックスなし
   ├── components/card.tsx      # PascalCaseでない
   └── types/index.ts           # 何の型かわからない
+```
+
+```ts
+// Good - 意図が伝わる命名
+const invoiceTotal = calculateTotal(items);
+const retryCount = 3;
+const isAuthenticated = session !== null;
+
+// Bad - 曖昧な命名
+const data = calculateTotal(items);
+const x = 3;
+const flag = session !== null;
 ```
 
 ## When unsure

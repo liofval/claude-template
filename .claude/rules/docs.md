@@ -62,21 +62,6 @@ docs/
 src/features/user/          # README なし
 ```
 
-## `docs/` ディレクトリ構成
-```
-docs/
-├── README.md              # docs全体の目次・ガイド
-├── requirements.md        # 要件定義書（最初に書く）
-├── specifications.md      # 仕様書（最初に書く）
-├── architecture.md        # アーキテクチャ概要・技術選定理由
-├── er-diagram.md          # DB設計のER図（Mermaid記法）
-├── api-specification.md   # APIエンドポイント仕様
-├── setup.md               # 開発環境セットアップ詳細手順
-├── deployment.md          # デプロイ手順・インフラ構成
-└── adr/                   # Architecture Decision Records
-    └── NNNN-タイトル.md    # 各ADR（連番管理）
-```
-
 ## 各ディレクトリ README の対象
 
 ### Do

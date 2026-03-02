@@ -1,3 +1,7 @@
+<p align='center'>
+  English | <a href='./README.ja.md'>日本語</a>
+</p>
+
 # User Feature — Reference Implementation
 
 This is a complete reference example of a feature following all Core Rules.
@@ -32,6 +36,16 @@ Request → API (validation + response) → Service (business logic) → Reposit
 | `service/` | Business rules, orchestration, throw domain errors | Know about HTTP, return Response objects |
 | `repository/` | DB queries via ORM, data access | Contain business logic, handle HTTP |
 | `types/` | Define interfaces, mappers, constants | Contain logic or side effects |
+
+## About This Example
+
+This implementation uses TypeScript, but the important thing is the structure:
+
+- **api** — Input/output handling (HTTP request parsing, response formatting)
+- **service** — Business logic (domain rules, orchestration)
+- **repository** — Data access (DB queries)
+
+Even if your project uses a different language or framework, maintain the same separation of responsibilities.
 
 ## Key Patterns Demonstrated
 
