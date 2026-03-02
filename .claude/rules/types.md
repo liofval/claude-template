@@ -7,20 +7,79 @@ paths:
 # Types Rules
 
 ## 命名規則
-- 型名はPascalCaseで記述する。
-- Props型は `XxxProps`、レスポンス型は `XxxResponse`、リクエスト型は `XxxRequest` とする。
-- Enum的な型は `as const` + `typeof` パターンを優先する。
+
+### Do
+- 型名はPascalCaseで記述する
+- Props型は `XxxProps`、レスポンス型は `XxxResponse`、リクエスト型は `XxxRequest` とする
+- Enum的な型は `as const` + `typeof` パターンを優先する
+
+### Don't
+- 型名をキャメルケースやスネークケースにしない
+- `enum` は使わない（ツリーシェイキングに不利）
+
+### Example
+```ts
+// Good
+interface UserCardProps { ... }
+type CreateUserRequest = { ... }
+type UserResponse = { ... }
+
+const STATUS = {
+  ACTIVE: "active",
+  INACTIVE: "inactive",
+} as const;
+type Status = typeof STATUS[keyof typeof STATUS];
+
+// Bad
+interface userCardProps { ... }   // キャメルケース
+enum Status { Active, Inactive }  // enum使用
+```
 
 ## 構成
-- ドメインごとにファイルを分割する（例: `user.ts`, `product.ts`）。
-- 共通の型は `common.ts` にまとめる。
-- APIレスポンスの型とドメインモデルの型は分離する。
+
+### Do
+- ドメインごとにファイルを分割する（例: `user.ts`, `product.ts`）
+- 共通の型は `common.ts` にまとめる
+- APIレスポンスの型とドメインモデルの型は分離する
+
+### Don't
+- すべての型を1ファイルに詰め込まない
 
 ## 型定義の方針
-- オブジェクト型には `interface` を使用する。ユニオン型やユーティリティ型には `type` を使用する。
-- `any` は禁止。`unknown` を使い型ガードで絞り込む。
-- オプショナルプロパティ (`?`) は本当に省略可能な場合のみ使う。
+
+### Do
+- オブジェクト型には `interface` を使用する
+- ユニオン型やユーティリティ型には `type` を使用する
+- 不明な型は `unknown` を使い型ガードで絞り込む
+
+### Don't
+- `any` を使わない
+- オプショナルプロパティ (`?`) を安易に付けない（本当に省略可能な場合のみ）
+
+### Example
+```ts
+// Good
+interface User {
+  id: string;
+  name: string;
+  bio?: string; // 本当に省略可能
+}
+
+type Result<T> = { ok: true; data: T } | { ok: false; error: string };
+
+// Bad
+interface User {
+  id: any;
+  name?: string;  // 必須なのに ?
+  email?: string; // 必須なのに ?
+}
+```
 
 ## エクスポート
-- 外部から参照される型は named export する。
-- barrel export (`index.ts`) でまとめて再エクスポートする。
+
+### Do
+- 外部から参照される型は named export する
+- barrel export (`index.ts`) でまとめて再エクスポートする
+
+### Don't
+- 内部でしか使わない型を export しない
