@@ -13,6 +13,7 @@
 - 過剰な設計は避ける（YAGNI）
 - 新しいファイルを作る際は Core Rules の structure.md に従う
 - 新しい feature を作る際は `examples/user-feature/` を参照し、同じ構成・パターンで実装する
+- `examples/` は構造とパターンの参考にする（言語・フレームワークはプロジェクトの技術スタックに従う）
 
 ## 作業フロー
 

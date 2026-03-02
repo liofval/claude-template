@@ -129,7 +129,14 @@ These documents are what Claude reads to understand **what to build**. The rules
 > [!IMPORTANT]
 > The Layer Rules (`.claude/rules/*.md`) are written with **TypeScript / Next.js / Prisma** as defaults. **You must rewrite them to match your project's tech stack.** Core Rules (`core/`) are language-agnostic and can be used as-is.
 
-Edit the rules in `.claude/rules/` to match your project's tech stack. Each rule follows the **Do/Don't + Example** format:
+Layer Rules are split into two tiers. **Start with the 4 essential rules** — add optional rules later as needed.
+
+| Tier | Files | When to customize |
+|---|---|---|
+| **Essential** | `api.md`, `backend.md`, `db.md`, `config.md` | Rewrite these first to match your tech stack |
+| **Optional** | `frontend.md`, `hooks.md`, `testing.md`, `types.md`, `cicd.md`, `docs.md` | Add when your project uses the matching layer |
+
+Each rule follows the **Do/Don't + Example** format:
 
 ```markdown
 ### Do
@@ -179,18 +186,23 @@ Claude Code will now automatically apply the appropriate rules as you work on di
 | `core/naming.md` | camelCase functions, PascalCase types, kebab-case files |
 | `core/coding.md` | Single responsibility, no `any`, early returns, no magic numbers |
 
-### Layer Rules (applied per file path)
+### Layer Rules — Essential (customize first)
+
+| Rule File | Target Paths | Key Points |
+|---|---|---|
+| `api.md` | `src/app/api/**`, `src/pages/api/**` | RESTful design, Zod validation, unified error format |
+| `backend.md` | `src/lib/**`, `src/services/**`, `src/utils/**` | Custom error classes, test colocation |
+| `db.md` | `src/db/**`, `prisma/**`, `drizzle/**` | Snake_case tables, N+1 prevention, Mermaid ER diagram |
+| `config.md` | `*.config.*`, `.env*`, `package.json` | Env via config module, strict TypeScript, lock files committed |
+
+### Layer Rules — Optional (add as needed)
 
 | Rule File | Target Paths | Key Points |
 |---|---|---|
 | `frontend.md` | `src/components/**`, `src/pages/**`, `src/app/**` | Display-only components, logic in hooks, named exports, Tailwind |
-| `api.md` | `src/app/api/**`, `src/pages/api/**` | RESTful design, Zod validation, unified error format |
-| `backend.md` | `src/lib/**`, `src/services/**`, `src/utils/**` | Business logic in services, no `any`, custom error classes |
-| `db.md` | `src/db/**`, `prisma/**`, `drizzle/**` | Snake_case tables, N+1 prevention, Mermaid ER diagram |
 | `hooks.md` | `src/hooks/**` | Single responsibility, object return type, effect cleanup |
 | `types.md` | `src/types/**` | `interface` for objects, `as const` over `enum`, no `any` |
 | `testing.md` | `**/*.test.*`, `**/*.spec.*` | Colocated test files, AAA pattern, minimal mocking |
-| `config.md` | `*.config.*`, `.env*`, `package.json` | Env via config module, strict TypeScript, lock files committed |
 | `cicd.md` | `.github/workflows/**` | Parallel jobs, secrets in GitHub Secrets, cache dependencies |
 | `docs.md` | `**/README.md`, `docs/**` | Bilingual README, Mermaid diagrams, GitHub Alerts notation |
 

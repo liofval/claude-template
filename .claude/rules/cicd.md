@@ -7,25 +7,28 @@ paths:
 
 # CI/CD Rules
 
-## ワークフロー設計
+## Do
+- ジョブは責務ごとに分割し、並列実行する（lint / test / build）
+- シークレットは GitHub Secrets で管理する（ハードコード禁止）
+- 依存パッケージのインストールにはキャッシュを活用する
+- main ブランチには PR 経由 + CI パス必須でのみマージする
+- staging → production の順にデプロイする（production は手動承認）
+- デプロイ後にヘルスチェックを実行する
 
-### Do
-- PR作成時に lint / type-check / test を自動実行する
-- main ブランチへのマージ時にデプロイを実行する
-- ジョブは責務ごとに分割し、並列実行できるようにする
+## Don't
+- 1つのジョブに全ステップを詰め込まない
+- シークレットをログに出力しない
+- staging を飛ばして production に直接デプロイしない
 
-### Don't
-- 1つのジョブに lint・test・build・deploy をすべて詰め込まない
-- main ブランチへの直接 push を許可しない
-
-### Example
+## Example
 ```yaml
-# Good
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: "pnpm" }
       - run: pnpm lint
 
   test:
@@ -38,110 +41,7 @@ jobs:
     needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - run: pnpm build
-
-# Bad
-jobs:
-  everything:
-    runs-on: ubuntu-latest
-    steps:
-      - run: pnpm lint && pnpm test && pnpm build && pnpm deploy
-```
-
-## シークレット管理
-
-### Do
-- 機密情報は GitHub Secrets / 環境変数で管理する
-- 環境ごとに Environments（production / staging 等）を分ける
-
-### Don't
-- シークレットをワークフローファイルにハードコードしない
-- シークレットをログに出力しない
-
-### Example
-```yaml
-# Good
-env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
-# Bad
-env:
-  DATABASE_URL: "postgresql://user:password@localhost:5432/mydb"
-```
-
-## キャッシュ
-
-### Do
-- 依存パッケージのインストールはキャッシュを活用する
-- キャッシュキーにlockファイルのハッシュを含める
-
-### Don't
-- キャッシュなしで毎回フルインストールしない
-
-### Example
-```yaml
-# Good
-- uses: actions/setup-node@v4
-  with:
-    node-version: 20
-    cache: "pnpm"
-
-# Bad
-- run: pnpm install  # キャッシュなし、毎回フルインストール
-```
-
-## ブランチ保護
-
-### Do
-- main ブランチには PR 経由でのみマージする
-- マージ前に CI のパスを必須にする
-- PR には最低1人のレビュー承認を必須にする
-
-### Don't
-- CI が失敗した状態でマージしない
-- レビューなしでマージしない
-
-### Example
-```yaml
-# Good - ブランチ保護の設定（GitHub Settings > Branches > Branch protection rules）
-# - Require a pull request before merging
-# - Require approvals: 1
-# - Require status checks to pass before merging:
-#   - lint
-#   - test
-#   - build
-```
-
-## デプロイ
-
-### Do
-- staging → production の順にデプロイする
-- production デプロイは手動承認（`environment` の protection rules）を挟む
-- デプロイ後にヘルスチェックを実行する
-
-### Don't
-- staging を飛ばして production に直接デプロイしない
-- ロールバック手順を用意せずにデプロイしない
-
-### Example
-```yaml
-# Good
-deploy-staging:
-  needs: [build]
-  environment: staging
-  steps:
-    - run: pnpm deploy --env staging
-
-deploy-production:
-  needs: [deploy-staging]
-  environment: production  # 手動承認が必要
-  steps:
-    - run: pnpm deploy --env production
-    - run: curl --fail https://example.com/health  # ヘルスチェック
-
-# Bad
-deploy:
-  steps:
-    - run: pnpm deploy --env production  # staging なし、承認なし
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 ```
