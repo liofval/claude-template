@@ -47,6 +47,24 @@ const db = connect(process.env.DATABASE_URL!); // 直接参照
 - 不要な依存パッケージを追加しない（既存の依存で代替できないか確認する）
 - `strict` を無効にしない
 
+### Example
+```jsonc
+// Good - tsconfig.json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true
+  }
+}
+
+// Bad
+{
+  "compilerOptions": {
+    "strict": false  // 型安全性が損なわれる
+  }
+}
+```
+
 ## パッケージ管理
 
 ### Do
@@ -57,3 +75,13 @@ const db = connect(process.env.DATABASE_URL!); // 直接参照
 ### Don't
 - lockファイルを `.gitignore` に入れない
 - 本番不要なパッケージを `dependencies` に入れない
+
+### Example
+```bash
+# Good
+pnpm add zod                    # 本番で必要 → dependencies
+pnpm add -D vitest @types/node  # 開発のみ → devDependencies
+
+# Bad
+pnpm add vitest  # 開発専用なのに dependencies に入る
+```

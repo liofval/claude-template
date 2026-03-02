@@ -39,6 +39,18 @@ useHelper()       // 曖昧
 ### Don't
 - 1つのhookに複数の無関係な責務を詰め込まない
 
+### Example
+```ts
+// Good - 責務を分割
+const useAuth = () => { /* 認証のみ */ };
+const useUserProfile = () => { /* プロフィール取得のみ */ };
+
+// Bad - 複数の責務が混在
+const useUser = () => {
+  // 認証チェック + プロフィール取得 + 通知取得 + 設定取得...
+};
+```
+
 ## 引数・戻り値
 
 ### Do

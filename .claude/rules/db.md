@@ -72,12 +72,45 @@ for (const user of users) {
 - マイグレーションファイルを手動で編集しない
 - 本番DBを直接変更しない
 
+### Example
+```bash
+# Good - マイグレーション経由でスキーマ変更
+pnpm prisma migrate dev --name add_user_role
+
+# Bad
+# 本番DBに直接SQL実行
+# ALTER TABLE users ADD COLUMN role VARCHAR(255);
+```
+
 ## ER図
 
 ### Do
 - スキーマ変更時は `docs/er-diagram.md` のER図をMermaid記法で作成・更新する
 - すべてのテーブルとリレーションを含め、全体像を把握できる状態を維持する
 - カラムには型を明記し、PK・FK を区別する
+
+### Example
+````markdown
+```mermaid
+erDiagram
+    users ||--o{ posts : "has many"
+    users {
+        string id PK
+        string email
+        string name
+        datetime created_at
+        datetime updated_at
+    }
+    posts {
+        string id PK
+        string user_id FK
+        string title
+        text content
+        datetime created_at
+        datetime updated_at
+    }
+```
+````
 
 ## セキュリティ
 

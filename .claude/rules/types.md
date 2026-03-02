@@ -45,6 +45,20 @@ enum Status { Active, Inactive }  // enum使用
 ### Don't
 - すべての型を1ファイルに詰め込まない
 
+### Example
+```
+# Good - ドメインごとに分割
+src/types/
+  ├── user.ts       # User, CreateUserInput, UserResponse
+  ├── post.ts       # Post, CreatePostInput, PostResponse
+  ├── common.ts     # Pagination, SortOrder, ApiError
+  └── index.ts      # barrel export
+
+# Bad - 全部1ファイル
+src/types/
+  └── index.ts      # すべての型が1000行以上
+```
+
 ## 型定義の方針
 
 ### Do
@@ -83,3 +97,20 @@ interface User {
 
 ### Don't
 - 内部でしか使わない型を export しない
+
+### Example
+```ts
+// Good
+// src/types/user.ts
+export interface User { ... }
+export type CreateUserInput = { ... }
+
+// src/types/index.ts (barrel export)
+export type { User, CreateUserInput } from "./user";
+export type { Post, CreatePostInput } from "./post";
+
+// Bad
+// src/types/user.ts
+interface InternalCache { ... }  // 内部用
+export { InternalCache };        // 外部に公開してしまっている
+```

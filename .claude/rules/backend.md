@@ -97,3 +97,15 @@ throw new Error("not found");
 
 ### Don't
 - テストファイルを別ディレクトリにまとめない
+
+### Example
+```
+# Good - 対象と同階層
+src/features/user/service/
+  ├── user-service.ts
+  └── user-service.test.ts
+
+# Bad - 別ディレクトリ
+src/features/user/service/user-service.ts
+tests/user-service.test.ts
+```

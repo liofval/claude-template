@@ -78,6 +78,30 @@ it("ユーザーテスト", () => {
 - 実装の内部詳細をモックしすぎない
 - モックのリセット忘れでテスト間に依存を作らない
 
+### Example
+```ts
+// Good
+const mockUserRepository = {
+  findById: vi.fn(),
+};
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
+it("ユーザーが見つからない場合にエラーを投げる", async () => {
+  mockUserRepository.findById.mockResolvedValue(null);
+  await expect(userService.getUser("123")).rejects.toThrow(NotFoundError);
+});
+
+// Bad
+it("ユーザーテスト", async () => {
+  // モックのリセットなし → 前のテストの状態が残る
+  const result = await userService.getUser("123");
+  expect(result).toBeDefined();
+});
+```
+
 ## カバレッジ
 
 ### Do
@@ -87,3 +111,20 @@ it("ユーザーテスト", () => {
 
 ### Don't
 - 実装の詳細（内部state、private メソッド等）を直接テストしない
+
+### Example
+```tsx
+// Good - ユーザー操作ベース
+it("送信ボタンをクリックするとフォームが送信される", async () => {
+  render(<ContactForm />);
+  await userEvent.type(screen.getByLabelText("メール"), "test@example.com");
+  await userEvent.click(screen.getByRole("button", { name: "送信" }));
+  expect(screen.getByText("送信完了")).toBeInTheDocument();
+});
+
+// Bad - 内部実装に依存
+it("stateが更新される", () => {
+  const { result } = renderHook(() => useContactForm());
+  act(() => result.current.setState({ email: "test@example.com" })); // 内部stateを直接操作
+});
+```

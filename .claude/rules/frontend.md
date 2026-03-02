@@ -74,6 +74,30 @@ export default function UserCard(props: any) {
 - グローバルステートに何でも入れない
 - コンポーネント内で直接 `fetch` しない
 
+### Example
+```tsx
+// Good
+import { useQuery } from "@tanstack/react-query";
+
+export const UserList = () => {
+  const { data: users, isLoading } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => fetch("/api/users").then((r) => r.json()),
+  });
+  if (isLoading) return <Loading />;
+  return <ul>{users.map((u) => <li key={u.id}>{u.name}</li>)}</ul>;
+};
+
+// Bad
+export const UserList = () => {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch("/api/users").then((r) => r.json()).then(setUsers); // 直接fetch
+  }, []);
+  return <ul>{users.map((u) => <li>{u.name}</li>)}</ul>;
+};
+```
+
 ## パフォーマンス
 
 ### Do
@@ -84,3 +108,16 @@ export default function UserCard(props: any) {
 ### Don't
 - `key` に配列の index を使わない（要素の追加・削除がある場合）
 - 計測なしに `useMemo` / `useCallback` を乱用しない
+
+### Example
+```tsx
+// Good
+{users.map((user) => (
+  <UserCard key={user.id} name={user.name} />
+))}
+
+// Bad
+{users.map((user, index) => (
+  <UserCard key={index} name={user.name} />  // indexをkeyに使用
+))}
+```

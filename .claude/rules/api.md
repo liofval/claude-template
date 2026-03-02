@@ -92,3 +92,23 @@ try {
 ### Don't
 - 認証チェックを省略しない
 - CORS設定を `*` にしない（本番環境）
+
+### Example
+```ts
+// Good
+export async function GET(req: Request) {
+  const session = await getSession(req);
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const users = await userService.list();
+  return NextResponse.json(users);
+}
+
+// Bad
+export async function GET(req: Request) {
+  // 認証チェックなし
+  const users = await userService.list();
+  return NextResponse.json(users);
+}
+```

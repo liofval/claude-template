@@ -102,6 +102,17 @@ env:
 - CI が失敗した状態でマージしない
 - レビューなしでマージしない
 
+### Example
+```yaml
+# Good - ブランチ保護の設定（GitHub Settings > Branches > Branch protection rules）
+# - Require a pull request before merging
+# - Require approvals: 1
+# - Require status checks to pass before merging:
+#   - lint
+#   - test
+#   - build
+```
+
 ## デプロイ
 
 ### Do
@@ -112,3 +123,25 @@ env:
 ### Don't
 - staging を飛ばして production に直接デプロイしない
 - ロールバック手順を用意せずにデプロイしない
+
+### Example
+```yaml
+# Good
+deploy-staging:
+  needs: [build]
+  environment: staging
+  steps:
+    - run: pnpm deploy --env staging
+
+deploy-production:
+  needs: [deploy-staging]
+  environment: production  # 手動承認が必要
+  steps:
+    - run: pnpm deploy --env production
+    - run: curl --fail https://example.com/health  # ヘルスチェック
+
+# Bad
+deploy:
+  steps:
+    - run: pnpm deploy --env production  # staging なし、承認なし
+```

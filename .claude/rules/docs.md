@@ -42,6 +42,26 @@ paths:
 - `docs/` だけにドキュメントを集約しない（コードの近くにも置く）
 - ディレクトリの README を省略しない
 
+### Example
+```
+# Good - コードの近くにも README を配置
+src/features/user/
+  ├── README.md             # user feature の説明
+  ├── service/
+  └── repository/
+
+docs/
+  ├── requirements.md       # プロジェクト全体の要件
+  └── architecture.md       # 全体設計
+
+# Bad - docs/ にすべて集約
+docs/
+  ├── user-feature.md
+  ├── auth-feature.md
+  └── ...
+src/features/user/          # README なし
+```
+
 ## `docs/` ディレクトリ構成
 ```
 docs/
@@ -66,6 +86,20 @@ docs/
   - `src/services/` - サービス層の責務・依存関係
   - `src/app/api/` または `src/pages/api/` - APIエンドポイント一覧
 
+### Example
+```markdown
+# src/features/user/
+
+ユーザー管理に関する機能を提供します。
+
+## 構成
+| ディレクトリ | 責務 |
+|---|---|
+| `api/` | ユーザー関連の API Route |
+| `service/` | ユーザーのビジネスロジック |
+| `repository/` | ユーザーの DB アクセス |
+```
+
 ## 図表の記法
 
 ### Do
@@ -74,6 +108,17 @@ docs/
 
 ### Don't
 - 画像で図表を管理しない（更新しづらい）
+
+### Example
+````markdown
+```mermaid
+flowchart TD
+    A[ユーザー登録] --> B[入力バリデーション]
+    B --> C{メール重複チェック}
+    C -->|重複なし| D[ユーザー作成]
+    C -->|重複あり| E[エラー返却]
+```
+````
 
 ## ディレクトリツリー
 
@@ -84,6 +129,17 @@ docs/
 
 ### Don't
 - ツリーを古いまま放置しない
+
+### Example
+```markdown
+## Directory Structure
+├── src/
+│   ├── features/       # 機能ごとのモジュール
+│   ├── shared/         # 共通コンポーネント・hooks
+│   └── lib/            # 外部ライブラリのラッパー
+├── docs/               # プロジェクトドキュメント
+└── CLAUDE.md           # コーディング原則
+```
 
 ## 記載内容
 
@@ -125,6 +181,12 @@ docs/
 ### Don't
 - `.wiki/` をリポジトリにコミットしない
 
+### Example
+```gitignore
+# .gitignore
+.wiki/
+```
+
 ## メンテナンス
 
 ### Do
@@ -133,3 +195,13 @@ docs/
 
 ### Don't
 - ドキュメントの更新を後回しにしない
+
+### Example
+```markdown
+<!-- Good - コード変更と同じ PR でドキュメントも更新 -->
+feat: add user deletion API
+
+- Add DELETE /api/users/[id]
+- Update docs/api-specification.md  ← 同時に更新
+- Update docs/er-diagram.md         ← 同時に更新
+```
