@@ -41,6 +41,8 @@ claude-template/
 │   ├── adr/
 │   │   └── 0000-template.md       # ADRテンプレート
 │   ├── README.md                   # docs目次
+│   ├── requirements.md             # 要件定義書（最初に書く）
+│   ├── specifications.md           # 仕様書（最初に書く）
 │   ├── api-specification.md        # APIエンドポイント仕様
 │   ├── architecture.md             # アーキテクチャ概要
 │   ├── deployment.md               # デプロイ手順
@@ -87,7 +89,19 @@ rm -rf .git
 git init
 ```
 
-### 2. ルールをカスタマイズ
+### 2. 要件定義書と仕様書を書く
+
+Claude にコードを書かせる前に、`docs/` の入力ドキュメントを準備します：
+
+1. **`docs/requirements.md`** — プロジェクト概要、機能一覧、技術スタックを定義
+2. **`docs/specifications.md`** — データモデル、ビジネスルール、API仕様を定義
+
+これらのドキュメントは Claude が **「何を作るか」** を理解するためのものです。ルール（`.claude/rules/`）は **「どう作るか」** を定義します。両方揃って初めて品質の高い出力が得られます。
+
+> [!IMPORTANT]
+> 要件定義書と仕様書が詳細であるほど、Claude の出力精度が上がります。最低限、技術スタックとコア機能の一覧は記入してください。
+
+### 3. ルールをカスタマイズ
 
 `.claude/rules/` のルールをプロジェクトの技術スタックに合わせて編集します。各ルールは **Do/Don't + Example** 形式で記述されています：
 
@@ -106,7 +120,7 @@ const result = schema.safeParse(body);
 const { email } = await req.json(); // バリデーションなし
 ```
 
-### 3. ドキュメントを記入
+### 4. ドキュメントを記入
 
 `docs/` にはプレースホルダー付きのテンプレートがあります。プロジェクトの進行に合わせて埋めてください：
 
@@ -117,7 +131,7 @@ const { email } = await req.json(); // バリデーションなし
 - `deployment.md` — デプロイ手順
 - `adr/` — ADR（`0000-template.md` をベースに作成）
 
-### 4. Claude Code で開発開始
+### 5. Claude Code で開発開始
 
 ```bash
 claude

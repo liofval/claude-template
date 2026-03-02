@@ -46,6 +46,8 @@ paths:
 ```
 docs/
 ├── README.md              # docs全体の目次・ガイド
+├── requirements.md        # 要件定義書（最初に書く）
+├── specifications.md      # 仕様書（最初に書く）
 ├── architecture.md        # アーキテクチャ概要・技術選定理由
 ├── er-diagram.md          # DB設計のER図（Mermaid記法）
 ├── api-specification.md   # APIエンドポイント仕様

@@ -41,6 +41,8 @@ claude-template/
 │   ├── adr/
 │   │   └── 0000-template.md       # ADR template
 │   ├── README.md                   # Docs index
+│   ├── requirements.md             # Requirements definition (write first)
+│   ├── specifications.md           # Specifications (write first)
 │   ├── api-specification.md        # API endpoint spec
 │   ├── architecture.md             # Architecture overview
 │   ├── deployment.md               # Deployment guide
@@ -87,7 +89,19 @@ rm -rf .git
 git init
 ```
 
-### 2. Customize rules
+### 2. Write requirements and specifications
+
+Before asking Claude to write code, prepare the input documents in `docs/`:
+
+1. **`docs/requirements.md`** — Define the project overview, features, tech stack
+2. **`docs/specifications.md`** — Define data models, business rules, API specs
+
+These documents are what Claude reads to understand **what to build**. The rules (`.claude/rules/`) define **how to build it**. Both are needed for quality output.
+
+> [!IMPORTANT]
+> The more detailed your requirements and specifications are, the more accurate Claude's output will be. At minimum, fill in the tech stack and core feature list.
+
+### 3. Customize rules
 
 Edit the rules in `.claude/rules/` to match your project's tech stack. Each rule follows the **Do/Don't + Example** format:
 
@@ -106,7 +120,7 @@ const result = schema.safeParse(body);
 const { email } = await req.json(); // no validation
 ```
 
-### 3. Fill in documentation
+### 4. Fill in documentation
 
 The `docs/` directory contains templates with placeholder comments. Fill them in as your project evolves:
 
@@ -117,7 +131,7 @@ The `docs/` directory contains templates with placeholder comments. Fill them in
 - `deployment.md` — Deployment procedures
 - `adr/` — Architecture Decision Records (use `0000-template.md` as base)
 
-### 4. Start coding with Claude Code
+### 5. Start coding with Claude Code
 
 ```bash
 claude
