@@ -24,30 +24,30 @@ claude-template/
 │   └── rules/
 │       ├── core/                   # Core rules (always applied)
 │       │   ├── architecture.md     # Service / Repository layer separation
-│       │   ├── structure.md        # Feature-based directory structure
+│       │   ├── coding.md           # Code quality baseline
 │       │   ├── naming.md           # Naming conventions
-│       │   └── coding.md          # Code quality baseline
-│       ├── api.md              # API endpoint design
-│       ├── backend.md          # Service layer / utilities
-│       ├── cicd.md             # CI/CD workflows
-│       ├── config.md           # Config / env variables / packages
-│       ├── db.md               # Database / ORM
-│       ├── docs.md             # Documentation standards
-│       ├── frontend.md         # Components / pages
-│       ├── hooks.md            # Custom hooks
-│       ├── testing.md          # Testing
-│       └── types.md            # Type definitions
+│       │   └── structure.md        # Feature-based directory structure
+│       ├── api.md                  # API endpoint design
+│       ├── backend.md              # Service layer / utilities
+│       ├── cicd.md                 # CI/CD workflows
+│       ├── config.md               # Config / env variables / packages
+│       ├── db.md                   # Database / ORM
+│       ├── docs.md                 # Documentation standards
+│       ├── frontend.md             # Components / pages
+│       ├── hooks.md                # Custom hooks
+│       ├── testing.md              # Testing
+│       └── types.md                # Type definitions
 ├── docs/
 │   ├── adr/
-│   │   └── 0000-template.md    # ADR template
-│   ├── README.md               # Docs index
-│   ├── api-specification.md    # API endpoint spec
-│   ├── architecture.md         # Architecture overview
-│   ├── deployment.md           # Deployment guide
-│   ├── er-diagram.md           # ER diagram (Mermaid)
-│   └── setup.md                # Dev environment setup
-├── .gitignore
-├── CLAUDE.md                   # Global coding principles (SOLID, DRY, KISS, etc.)
+│   │   └── 0000-template.md       # ADR template
+│   ├── README.md                   # Docs index
+│   ├── api-specification.md        # API endpoint spec
+│   ├── architecture.md             # Architecture overview
+│   ├── deployment.md               # Deployment guide
+│   ├── er-diagram.md               # ER diagram (Mermaid)
+│   └── setup.md                    # Dev environment setup
+├── .gitignore                      # .wiki/ excluded
+├── CLAUDE.md                       # Global coding principles (SOLID, DRY, KISS, etc.)
 ├── README.md
 └── README.ja.md
 ```

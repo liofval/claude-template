@@ -24,30 +24,30 @@ claude-template/
 │   └── rules/
 │       ├── core/                   # コアルール（常に適用）
 │       │   ├── architecture.md     # Service / Repository 層分離
-│       │   ├── structure.md        # Feature-based ディレクトリ構成
+│       │   ├── coding.md           # コード品質の底上げ
 │       │   ├── naming.md           # 命名規則
-│       │   └── coding.md          # コード品質の底上げ
-│       ├── api.md              # APIエンドポイント設計
-│       ├── backend.md          # サービス層・ユーティリティ
-│       ├── cicd.md             # CI/CDワークフロー
-│       ├── config.md           # 設定・環境変数・パッケージ
-│       ├── db.md               # データベース・ORM
-│       ├── docs.md             # ドキュメント規約
-│       ├── frontend.md         # コンポーネント・ページ
-│       ├── hooks.md            # カスタムhooks
-│       ├── testing.md          # テスト
-│       └── types.md            # 型定義
+│       │   └── structure.md        # Feature-based ディレクトリ構成
+│       ├── api.md                  # APIエンドポイント設計
+│       ├── backend.md              # サービス層・ユーティリティ
+│       ├── cicd.md                 # CI/CDワークフロー
+│       ├── config.md               # 設定・環境変数・パッケージ
+│       ├── db.md                   # データベース・ORM
+│       ├── docs.md                 # ドキュメント規約
+│       ├── frontend.md             # コンポーネント・ページ
+│       ├── hooks.md                # カスタムhooks
+│       ├── testing.md              # テスト
+│       └── types.md                # 型定義
 ├── docs/
 │   ├── adr/
-│   │   └── 0000-template.md    # ADRテンプレート
-│   ├── README.md               # docs目次
-│   ├── api-specification.md    # APIエンドポイント仕様
-│   ├── architecture.md         # アーキテクチャ概要
-│   ├── deployment.md           # デプロイ手順
-│   ├── er-diagram.md           # ER図（Mermaid記法）
-│   └── setup.md                # 開発環境セットアップ
-├── .gitignore
-├── CLAUDE.md                   # グローバルコーディング原則（SOLID, DRY, KISS 等）
+│   │   └── 0000-template.md       # ADRテンプレート
+│   ├── README.md                   # docs目次
+│   ├── api-specification.md        # APIエンドポイント仕様
+│   ├── architecture.md             # アーキテクチャ概要
+│   ├── deployment.md               # デプロイ手順
+│   ├── er-diagram.md               # ER図（Mermaid記法）
+│   └── setup.md                    # 開発環境セットアップ
+├── .gitignore                      # .wiki/ を除外
+├── CLAUDE.md                       # グローバルコーディング原則（SOLID, DRY, KISS 等）
 ├── README.md
 └── README.ja.md
 ```
