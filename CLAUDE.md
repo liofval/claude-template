@@ -1,3 +1,21 @@
+# Instructions
+
+## Priority
+
+1. **Core Rules（必須）** — `.claude/rules/core/` のルールは常に守ること
+2. **Layer Rules（補助）** — `.claude/rules/` の各ルール（api, backend 等）は該当ファイル編集時に適用
+3. **このファイル（原則）** — 全体に適用されるコーディング原則
+
+迷った場合は Core Rules に従う。
+
+## Behavior
+
+- 可読性が高く、責務分離されたコードを生成する
+- 過剰な設計は避ける（YAGNI）
+- 新しいファイルを作る際は Core Rules の structure.md に従う
+
+---
+
 # コーディング原則
 
 ## 基本ルール（常に適用）

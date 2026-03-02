@@ -8,10 +8,11 @@
 
 ## これは何？
 
-このテンプレートは2つのものを提供します：
+このテンプレートは3つのものを提供します：
 
-1. **`.claude/rules/`** — ファイルパスに応じて Claude Code が自動適用するルール群
-2. **`docs/`** — ドキュメントテンプレート（アーキテクチャ、ER図、API仕様、ADR 等）
+1. **`.claude/rules/core/`** — 常に適用されるコアルール（アーキテクチャ、構成、命名、コーディング）
+2. **`.claude/rules/`** — ファイルパスに応じて適用されるレイヤー別ルール
+3. **`docs/`** — ドキュメントテンプレート（アーキテクチャ、ER図、API仕様、ADR 等）
 
 このテンプレートからクローンしたプロジェクトで Claude Code を使うと、手動でプロンプトを書かなくても AI がルールに従ってコードを書きます。
 
@@ -20,7 +21,12 @@
 ```
 claude-template/
 ├── .claude/
-│   └── rules/                  # Claude Code パススコープルール
+│   └── rules/
+│       ├── core/                   # コアルール（常に適用）
+│       │   ├── architecture.md     # Service / Repository 層分離
+│       │   ├── structure.md        # Feature-based ディレクトリ構成
+│       │   ├── naming.md           # 命名規則
+│       │   └── coding.md          # コード品質の底上げ
 │       ├── api.md              # APIエンドポイント設計
 │       ├── backend.md          # サービス層・ユーティリティ
 │       ├── cicd.md             # CI/CDワークフロー
@@ -62,10 +68,13 @@ paths:
 
 ### ルールの階層
 
-| ファイル | スコープ | 適用タイミング |
-|---|---|---|
-| `CLAUDE.md` | グローバル | 常時（コーディング原則、命名、作業フロー） |
-| `.claude/rules/*.md` | パススコープ | `paths` にマッチするファイルの編集時のみ |
+| 優先度 | ファイル | スコープ | 適用タイミング |
+|---|---|---|---|
+| 1 | `.claude/rules/core/*.md` | コア | `src/**` 編集時は常に適用（必須） |
+| 2 | `.claude/rules/*.md` | レイヤー | `paths` にマッチするファイルの編集時 |
+| 3 | `CLAUDE.md` | グローバル | 常時（コーディング原則、命名、作業フロー） |
+
+ルールが競合する場合は、優先度の高いものが勝つ。
 
 ## 使い方
 
@@ -116,7 +125,21 @@ claude
 
 Claude Code がコードベースの各部分に応じて適切なルールを自動適用します。
 
+> **Tip**: Claude に明示的に伝えることもできます：
+> 「このプロジェクトの CLAUDE.md と rules に従って実装してください」
+
 ## ルール一覧
+
+### コアルール（`src/**` に常時適用）
+
+| ルールファイル | 主なポイント |
+|---|---|
+| `core/architecture.md` | ビジネスロジックは service、DBアクセスは repository、Controller はリクエスト/レスポンスのみ |
+| `core/structure.md` | Feature-based ディレクトリ構成（`features/` / `shared/` / `lib/`） |
+| `core/naming.md` | 関数は camelCase、型は PascalCase、ファイルは kebab-case |
+| `core/coding.md` | 単一責務、`any` 禁止、早期リターン、マジックナンバー禁止 |
+
+### レイヤールール（ファイルパスに応じて適用）
 
 | ルールファイル | 対象パス | 主なポイント |
 |---|---|---|

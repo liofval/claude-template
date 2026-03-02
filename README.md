@@ -8,10 +8,11 @@ A project template with pre-configured [Claude Code](https://docs.anthropic.com/
 
 ## What is this?
 
-This template provides two things:
+This template provides three things:
 
-1. **`.claude/rules/`** — Path-scoped rules that Claude Code automatically applies when editing matching files
-2. **`docs/`** — Documentation templates (architecture, ER diagram, API spec, ADR, etc.)
+1. **`.claude/rules/core/`** — Core rules that are always applied (architecture, structure, naming, coding)
+2. **`.claude/rules/`** — Layer-specific rules applied when editing matching files
+3. **`docs/`** — Documentation templates (architecture, ER diagram, API spec, ADR, etc.)
 
 When you use Claude Code in a project cloned from this template, the AI will follow these rules automatically — no manual prompting required.
 
@@ -20,7 +21,12 @@ When you use Claude Code in a project cloned from this template, the AI will fol
 ```
 claude-template/
 ├── .claude/
-│   └── rules/                  # Claude Code path-scoped rules
+│   └── rules/
+│       ├── core/                   # Core rules (always applied)
+│       │   ├── architecture.md     # Service / Repository layer separation
+│       │   ├── structure.md        # Feature-based directory structure
+│       │   ├── naming.md           # Naming conventions
+│       │   └── coding.md          # Code quality baseline
 │       ├── api.md              # API endpoint design
 │       ├── backend.md          # Service layer / utilities
 │       ├── cicd.md             # CI/CD workflows
@@ -62,10 +68,13 @@ When you edit a file matching these patterns, Claude Code automatically follows 
 
 ### Rule Hierarchy
 
-| File | Scope | When it applies |
-|---|---|---|
-| `CLAUDE.md` | Global | Always (coding principles, naming, workflow) |
-| `.claude/rules/*.md` | Path-scoped | Only when editing files matching `paths` |
+| Priority | File | Scope | When it applies |
+|---|---|---|---|
+| 1 | `.claude/rules/core/*.md` | Core | Always when editing `src/**` (must follow) |
+| 2 | `.claude/rules/*.md` | Layer | When editing files matching `paths` |
+| 3 | `CLAUDE.md` | Global | Always (coding principles, naming, workflow) |
+
+When rules conflict, higher priority wins.
 
 ## Getting Started
 
@@ -116,7 +125,21 @@ claude
 
 Claude Code will now automatically apply the appropriate rules as you work on different parts of the codebase.
 
+> **Tip**: You can also explicitly tell Claude:
+> "Follow the CLAUDE.md and rules in this project."
+
 ## Rules Overview
+
+### Core Rules (always applied to `src/**`)
+
+| Rule File | Key Points |
+|---|---|
+| `core/architecture.md` | Business logic in service, DB access via repository, Controller handles request/response only |
+| `core/structure.md` | Feature-based directory structure (`features/` / `shared/` / `lib/`) |
+| `core/naming.md` | camelCase functions, PascalCase types, kebab-case files |
+| `core/coding.md` | Single responsibility, no `any`, early returns, no magic numbers |
+
+### Layer Rules (applied per file path)
 
 | Rule File | Target Paths | Key Points |
 |---|---|---|
