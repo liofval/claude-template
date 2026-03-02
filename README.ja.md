@@ -8,11 +8,12 @@
 
 ## これは何？
 
-このテンプレートは3つのものを提供します：
+このテンプレートは4つのものを提供します：
 
-1. **`.claude/rules/core/`** — 常に適用されるコアルール（アーキテクチャ、構成、命名、コーディング）
-2. **`.claude/rules/`** — ファイルパスに応じて適用されるレイヤー別ルール
-3. **`docs/`** — ドキュメントテンプレート（アーキテクチャ、ER図、API仕様、ADR 等）
+1. **`examples/`** — すべてのルールを実践した完成リファレンス実装（user feature）
+2. **`.claude/rules/core/`** — 常に適用されるコアルール（アーキテクチャ、構成、命名、コーディング）
+3. **`.claude/rules/`** — ファイルパスに応じて適用されるレイヤー別ルール
+4. **`docs/`** — ドキュメントテンプレート（アーキテクチャ、ER図、API仕様、ADR 等）
 
 このテンプレートからクローンしたプロジェクトで Claude Code を使うと、手動でプロンプトを書かなくても AI がルールに従ってコードを書きます。
 
@@ -48,6 +49,18 @@ claude-template/
 │   ├── deployment.md               # デプロイ手順
 │   ├── er-diagram.md               # ER図（Mermaid記法）
 │   └── setup.md                    # 開発環境セットアップ
+├── examples/
+│   └── user-feature/               # リファレンス実装
+│       ├── api/
+│       │   ├── create-user.ts      # POST handler（Zodバリデーション）
+│       │   └── get-users.ts        # GET handler（ページネーション）
+│       ├── service/
+│       │   └── user-service.ts     # ビジネスロジック + カスタムエラー
+│       ├── repository/
+│       │   └── user-repository.ts  # DB アクセス（Prisma）
+│       ├── types/
+│       │   └── user.ts             # 型定義・定数・レスポンスマッパー
+│       └── README.md               # レイヤー責務の説明
 ├── .gitignore                      # .wiki/ を除外
 ├── CLAUDE.md                       # グローバルコーディング原則（SOLID, DRY, KISS 等）
 ├── README.md

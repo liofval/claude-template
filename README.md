@@ -8,11 +8,12 @@ A project template with pre-configured [Claude Code](https://docs.anthropic.com/
 
 ## What is this?
 
-This template provides three things:
+This template provides four things:
 
-1. **`.claude/rules/core/`** — Core rules that are always applied (architecture, structure, naming, coding)
-2. **`.claude/rules/`** — Layer-specific rules applied when editing matching files
-3. **`docs/`** — Documentation templates (architecture, ER diagram, API spec, ADR, etc.)
+1. **`examples/`** — A complete reference implementation (user feature) that demonstrates all rules in action
+2. **`.claude/rules/core/`** — Core rules that are always applied (architecture, structure, naming, coding)
+3. **`.claude/rules/`** — Layer-specific rules applied when editing matching files
+4. **`docs/`** — Documentation templates (architecture, ER diagram, API spec, ADR, etc.)
 
 When you use Claude Code in a project cloned from this template, the AI will follow these rules automatically — no manual prompting required.
 
@@ -48,6 +49,18 @@ claude-template/
 │   ├── deployment.md               # Deployment guide
 │   ├── er-diagram.md               # ER diagram (Mermaid)
 │   └── setup.md                    # Dev environment setup
+├── examples/
+│   └── user-feature/               # Reference implementation
+│       ├── api/
+│       │   ├── create-user.ts      # POST handler with Zod validation
+│       │   └── get-users.ts        # GET handler with pagination
+│       ├── service/
+│       │   └── user-service.ts     # Business logic + custom errors
+│       ├── repository/
+│       │   └── user-repository.ts  # DB access via Prisma
+│       ├── types/
+│       │   └── user.ts             # Types, constants, response mapper
+│       └── README.md               # Layer responsibilities explained
 ├── .gitignore                      # .wiki/ excluded
 ├── CLAUDE.md                       # Global coding principles (SOLID, DRY, KISS, etc.)
 ├── README.md
